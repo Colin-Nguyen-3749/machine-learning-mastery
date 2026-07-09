@@ -24,4 +24,10 @@ dataset = read_csv(url, names=names)
 # print("Dimensions of dataset: " + str(dataset.shape))
 
 # Peek at the dataset
-print(dataset.head(20))
+# print(dataset.head(20))
+
+# Get summary statistics
+# print(dataset.describe())
+
+# Look at the amount of rows in each class
+# print(dataset.groupby('class').size())
