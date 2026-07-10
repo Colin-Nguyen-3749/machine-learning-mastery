@@ -35,3 +35,11 @@ dataset = read_csv(url, names=names)
 # create box and whisker plots to visualize each attribute
 # dataset.plot(kind='box', subplots=True, layout=(2,2), sharex=False, sharey=False)
 # plt.show()
+
+#========================================
+
+# Create validation dataset (80% of iris dataset)
+array = dataset.values
+X = array[:,0:4]
+y = array[:,4]
+X_train, X_validation, Y_train, Y_validation = train_test_split(X, y, test_size=0.20, random_state=1)
