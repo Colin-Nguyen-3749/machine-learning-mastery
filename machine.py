@@ -43,3 +43,38 @@ array = dataset.values
 X = array[:,0:4]
 y = array[:,4]
 X_train, X_validation, Y_train, Y_validation = train_test_split(X, y, test_size=0.20, random_state=1)
+
+# Next, use a stratified 10-fold cross validation to estimate model accuracy
+# This splits our dataset into 10, where it will be trained on 9 of the splits 
+# and then tested on 1 split
+# Afterwards, repeat this pattern, but choose a new split to be tested on each time
+# The purpose of our test splits being stratified is to ensure that each split
+# of the dataset will have an even distribution of observations
+# For example, if we had a dataset of pets, we wouldn't want one split to continue 
+# mostly dogs and another mostly cats, we'd like an even distribution of them all
+
+# For the random seed in random_state, let this be a fixed number to make sure that 
+# each algorithm is evaluated on the same splits of the training dataset
+
+# Evaluate models by using accuracy
+# This is the ratio of the predicted instances that were predicted correctly divided by 
+# all other predictions (right and wrong), with the final result being multiplied by 100
+
+# Build all models
+models = []
+models.append(('LR', LogisticRegression(solver='liblinear')))
+models.append(('LDA', LinearDiscriminantAnalysis()))
+models.append(('KNN', KNeighborsClassifier()))
+models.append(('CART', DecisionTreeClassifier()))
+models.append(('NB', GaussianNB()))
+models.append(('SVM', SVC(gamma='auto')))
+
+# evaluate all of them
+results = []
+names = []
+for name, model in models:
+    kfold = StratifiedKFold(n_splits=10, random_state=1, shuffle=True)
+    cv_results = cross_val_score(model, X_train, Y_train, cv=kfold, scoring='accuracy')
+    results.append(cv_results)
+    names.append(name)
+    print('%s: %f (%f)' % (name, cv_results.mean(), cv_results.std()))
