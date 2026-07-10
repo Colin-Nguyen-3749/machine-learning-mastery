@@ -31,3 +31,7 @@ dataset = read_csv(url, names=names)
 
 # Look at the amount of rows in each class
 # print(dataset.groupby('class').size())
+
+# create box and whisker plots to visualize each attribute
+# dataset.plot(kind='box', subplots=True, layout=(2,2), sharex=False, sharey=False)
+# plt.show()
